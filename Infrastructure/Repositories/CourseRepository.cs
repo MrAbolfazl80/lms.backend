@@ -28,7 +28,7 @@ namespace Infrastructure.Repositories {
             var totalCount = await query.CountAsync();
 
             var courses = await query
-                .OrderBy(c => c.StartDate)
+                .OrderByDescending(c => c.Id)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
