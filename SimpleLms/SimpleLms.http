@@ -1,0 +1,6 @@
+@SimpleLms_HostAddress = http://localhost:5086
+
+GET {{SimpleLms_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
