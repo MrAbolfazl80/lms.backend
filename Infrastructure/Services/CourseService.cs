@@ -2,6 +2,7 @@
 using Application.DTOs.Courses;
 using Application.Repositories;
 using Application.Services;
+using Domain.Builders;
 using Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -89,15 +90,15 @@ namespace Infrastructure.Services {
         }
 
         public async Task<int> CreateAsync(CreateCourseRequest request) {
-            var course = new Course(
-                title: request.Title,
-                description: request.Description,
-                startDate: request.StartDate,
-                endDate: request.EndDate,
-                capacity: request.Capacity,
-                fee: request.Fee,
-                teacherName: request.TeacherName
-            );
+            var course = new CourseBuilder()
+                .WithTitle(request.Title)
+                .WithDescription(request.Description)
+                .WithStartDate(request.StartDate)
+                .WithEndDate(request.EndDate)
+                .WithCapacity(request.Capacity)
+                .WithFee(request.Fee)
+                .WithTeacherName(request.TeacherName)
+                .Build();
 
             await _courseRepository.AddAsync(course);
             return course.Id;
@@ -109,15 +110,16 @@ namespace Infrastructure.Services {
             if (course == null)
                 return false;
 
-            course.Update(
-                request.Title,
-                request.Description,
-                request.StartDate,
-                request.EndDate,
-                request.Capacity,
-                request.Fee,
-                request.TeacherName
-            );
+            var builder = new CourseBuilder()
+                .WithTitle(request.Title)
+                .WithDescription(request.Description)
+                .WithStartDate(request.StartDate)
+                .WithEndDate(request.EndDate)
+                .WithCapacity(request.Capacity)
+                .WithFee(request.Fee)
+                .WithTeacherName(request.TeacherName);
+
+            builder.ApplyTo(course);
 
             await _courseRepository.UpdateAsync(course);
             return true;

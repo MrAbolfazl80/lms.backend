@@ -12,10 +12,12 @@ namespace Infrastructure.Repositories {
         protected readonly LmsDbContext _context;
         protected readonly DbSet<T> _dbSet;
 
+
         public BaseRepository(LmsDbContext context) {
             _context = context;
             _dbSet = context.Set<T>();
         }
+        public IQueryable<T> Query => _dbSet.AsQueryable();
 
         public virtual async Task AddAsync(T entity) {
             await _dbSet.AddAsync(entity);

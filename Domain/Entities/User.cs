@@ -29,6 +29,9 @@ namespace Domain.Entities {
 
             if (passwordHash.Length < 6)
                 throw new DomainException("Username must be at least 6 characters long");
+            if (Roles.All.Contains(role)) {
+                throw new DomainException("Role is invalid");
+            }
             Username = username;
             PasswordHash = passwordHash;
             Role = role;
@@ -40,7 +43,10 @@ namespace Domain.Entities {
 
             PasswordHash = newPasswordHash;
         }
-
+        public bool IsValidRole(string role) {
+            var roles = new string[] { "admin", "student" };
+            return roles.Contains(role.Trim().ToLower());
+        }
         public void UpdateRole(string newRole) {
             if (string.IsNullOrWhiteSpace(newRole))
                 throw new DomainException("Role is required");

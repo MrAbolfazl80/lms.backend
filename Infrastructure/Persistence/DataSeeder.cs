@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Domain.Builders;
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -47,16 +48,15 @@ namespace Infrastructure.Persistence {
             }
             if (!await context.Courses.AnyAsync()) {
                 for (int i = 1; i <= 200; i++) {
-                    var course = new Course(
-                        title: $"Course {i}",
-                        description: $"Description for Course {i}",
-                        startDate: DateTime.Now,
-                        endDate: DateTime.Now.AddMonths(1),
-                        capacity: 30,
-                        fee: 2500 + i * 100,
-                        teacherName: $"Teacher {i}"
-                    );
-
+                    var course = new CourseBuilder()
+                        .WithTitle($"Course {i}")
+                        .WithDescription($"Description for Course {i}")
+                        .WithStartDate(DateTime.Now)
+                        .WithEndDate(DateTime.Now.AddMonths(1))
+                        .WithCapacity(30)
+                        .WithFee(2500 + i * 100)
+                        .WithTeacherName($"Teacher {i}")
+                        .Build();
                     await context.Courses.AddAsync(course);
                 }
             }

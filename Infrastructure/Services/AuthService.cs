@@ -2,6 +2,7 @@
 using Application.Repositories;
 using Application.Services;
 using Application.Utilities;
+using Domain.Common;
 using Domain.Entities;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -22,6 +23,10 @@ namespace Infrastructure.Services
         public AuthService(IOptions<JwtSettings> jwtSettings, IUserRepository userRepository) {
             _userRepository = userRepository;
             _jwtSettings = jwtSettings.Value;
+        }
+
+        public Task<string[]> GetUserRolesForDropDownAsync() {
+            return Task.FromResult(Roles.All);
         }
 
         public async Task<string> LoginAsync(string username, string password) {

@@ -31,7 +31,7 @@ namespace Domain.Entities {
 
         public ICollection<Enrollment> Enrollments { get; private set; } = new List<Enrollment>();
         private Course() { }
-        public Course(string title, string description, DateTime startDate, DateTime endDate, int capacity, decimal fee, string teacherName) {
+        internal Course(string title, string description, DateTime startDate, DateTime endDate, int capacity, decimal fee, string teacherName) {
             if (string.IsNullOrWhiteSpace(title))
                 throw new DomainException("Title required");
             if (startDate >= endDate)
@@ -61,7 +61,7 @@ namespace Domain.Entities {
                 throw new DomainException("Student already enrolled");
             Enrollments.Add(new Enrollment(student.Id, Id));
         }
-        public void Update(string title, string description, DateTime startDate, DateTime endDate, int capacity, decimal fee, string teacherName) {
+        internal void Update(string title, string description, DateTime startDate, DateTime endDate, int capacity, decimal fee, string teacherName) {
             if (string.IsNullOrWhiteSpace(title))
                 throw new DomainException("Title required");
             if (startDate >= endDate)

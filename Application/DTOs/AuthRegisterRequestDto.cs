@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.DTOs
-{
-    public class AuthLoginDto
-    {
+namespace Application.DTOs {
+    public class AuthRegisterRequestDto {
         public string Username { get; set; }
         public string Password { get; set; }
+        public string Role { get; set; }
     }
 }

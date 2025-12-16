@@ -7,7 +7,6 @@ using SimpleLms.Controllers.Base;
 
 namespace WebApi.Controllers {
     [ApiController]
-    [Route("api/[controller]/[action]")]
     public class CourseController : LmsControllerBase {
         private readonly ICourseService _courseService;
 
