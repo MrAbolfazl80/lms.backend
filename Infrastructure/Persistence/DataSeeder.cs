@@ -11,11 +11,11 @@ namespace Infrastructure.Persistence {
     public static class DataSeeder {
         public static async Task SeedDataAsync(LmsDbContext context) {
             if (!await context.Users.AnyAsync(u => u.Username == "admin")) {
-                var admin = new User(
-                    username: "admin",
-                    passwordHash: BCrypt.Net.BCrypt.HashPassword("Admin@"),
-                    role: "Admin"
-                );
+                var admin = new UserBuilder()
+                    .SetUsername("admin")
+                    .SetPassword(BCrypt.Net.BCrypt.HashPassword("Admin@"))
+                    .SetRole("Admin")
+                    .Build();
                 await context.Users.AddAsync(admin);
                 await context.SaveChangesAsync();
 
@@ -29,12 +29,11 @@ namespace Infrastructure.Persistence {
             for (int i = 1; i <= 10; i++) {
                 var username = $"student{i}";
                 if (!await context.Users.AnyAsync(u => u.Username == username)) {
-                    var studentUser = new User(
-                        username: username,
-                        passwordHash: BCrypt.Net.BCrypt.HashPassword($"Student{i}@"),
-                        role: "Student"
-                    );
-
+                    var studentUser = new UserBuilder()
+                    .SetUsername(username)
+                    .SetPassword(BCrypt.Net.BCrypt.HashPassword($"Student{i}@"))
+                    .SetRole("Student")
+                    .Build();
                     await context.Users.AddAsync(studentUser);
                     await context.SaveChangesAsync();
 

@@ -42,8 +42,7 @@ namespace WebApi.Controllers {
             return Success(result);
         }
         [HttpGet("{id}")]
-        //[Authorize(Roles = "Admin,Student")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Student")]
         public async Task<IActionResult> GetById(int id) {
             var result = await _courseService.GetByIdAsync(id);
             return Success(result);

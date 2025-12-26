@@ -2,6 +2,7 @@
 using Application.Repositories;
 using Application.Services;
 using Application.Utilities;
+using Domain.Builders;
 using Domain.Common;
 using Domain.Entities;
 using Microsoft.Extensions.Options;
@@ -43,7 +44,11 @@ namespace Infrastructure.Services
                 throw new Exception("Username already exists");
 
             var hashedPassword = PasswordHelper.HashPassword(password);
-            var user = new User(username, hashedPassword, role);
+            var user = new UserBuilder()
+                    .SetUsername(username)
+                    .SetPassword(hashedPassword)
+                    .SetRole(role)
+                    .Build();
 
             await _userRepository.AddAsync(user);
             return "User registered successfully";

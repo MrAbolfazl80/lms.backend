@@ -16,7 +16,7 @@ namespace Domain.Entities {
         public string Role { get; private set; }
         public Student? Student { get; private set; }
         private User() { }
-        public User(string username, string passwordHash, string role) {
+        internal User(string username, string passwordHash, string role) {
             if (string.IsNullOrWhiteSpace(username))
                 throw new DomainException("Username is required");
 
@@ -37,21 +37,41 @@ namespace Domain.Entities {
             Role = role;
         }
 
-        public void UpdatePassword(string newPasswordHash) {
+        internal void UpdatePassword(string newPasswordHash) {
             if (string.IsNullOrWhiteSpace(newPasswordHash))
                 throw new DomainException("PasswordHash is required");
 
             PasswordHash = newPasswordHash;
         }
-        public bool IsValidRole(string role) {
+        internal bool IsValidRole(string role) {
             var roles = new string[] { "admin", "student" };
             return roles.Contains(role.Trim().ToLower());
         }
-        public void UpdateRole(string newRole) {
+        internal void UpdateRole(string newRole) {
             if (string.IsNullOrWhiteSpace(newRole))
                 throw new DomainException("Role is required");
 
             Role = newRole;
+        }
+        internal void Update(string userName,string pass,string role) {
+            if (string.IsNullOrWhiteSpace(userName))
+                throw new DomainException("Username is required");
+
+
+            if (string.IsNullOrWhiteSpace(pass))
+                throw new DomainException("PasswordHash is required");
+
+            if (string.IsNullOrWhiteSpace(role))
+                throw new DomainException("Role is required");
+
+            if (pass.Length < 6)
+                throw new DomainException("Username must be at least 6 characters long");
+            if (Roles.All.Contains(role)) {
+                throw new DomainException("Role is invalid");
+            }
+            Username = userName;
+            PasswordHash = pass;
+            Role = role;
         }
     }
 }
